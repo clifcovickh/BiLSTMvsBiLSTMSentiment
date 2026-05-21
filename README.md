@@ -55,6 +55,10 @@ Because the LSTM requires a continuous 10-day rolling window, pausing the daily 
 * **What it does:** Scrapes the past 14 days of news and stock prices, translates/scores the missing sentiment, and performs a surgical "Upsert" to heal the `BBCA_Master_Dataset_BiLSTM.csv` without duplicating rows. 
 * **When to use it:** Only required to run this if the live script (Notebook 3) has not been executed for more than 2 weeks ish.
 
+### Models_Comparison.ipynb
+**Purpose: Create a fair environment to compare the selected models**
+This is done to prove that our chosen model, BILSTM, is the best fit for a sentiment-assisted stock analysis. Fairness is assured by setting a rule seed, a seed that sets all models' starting points to be equal. All models were also set to use a 2-layer, identical hyperparameters, and a universal window size of 10 days.
+
 ### EXTRAS 
 I will provide the initial Stock_hisotry_BBCA.csv I used, which was later formatted by the `1_DataEngineering_&_FinbertSentiment.ipynb`. I will also provide the scraper script I used to obtain the Google RSS news (gooogle_news_scrapper).
 
