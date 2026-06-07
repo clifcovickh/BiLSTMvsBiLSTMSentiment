@@ -31,35 +31,35 @@ To execute the pipeline or replicate our thesis benchmarks, run the notebooks in
 Click any badge below to instantly launch the notebook in a live Google Colab environment:
 
 ### 1. `1_DataEngineering_&_FinbertSentiment.ipynb`
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yourusername/BiLSTMvsBiLSTMSentiment/blob/main/1_DataEngineering_&_FinbertSentiment.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/clifcovickh/BiLSTMvsBiLSTMSentiment/blob/main/1_DataEngineering_%26_FinbertSentiment.ipynb)
 * **Purpose:** The Data Refinery Pipeline.
 * **What it does:** Processes raw historical Indonesian news and structural stock CSV files. It cleans numerical volume string notations (e.g., matching "193M" to `193,000,000`), translates text headlines, computes daily continuous FinBERT scores, applies the $T-1$ lag mapping, and outputs a uniform historical master database.
 * **Inputs:** `GoogleNews_BBCA.csv`, `BBCA_Stock_History.csv`
 * **Outputs:** `BBCA_Master_Dataset_BiLSTM.csv`
 
 ### 2. `2_BiLSTM_Training.ipynb`
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yourusername/BiLSTMvsBiLSTMSentiment/blob/main/2_BiLSTM_Training.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/clifcovickh/BiLSTMvsBiLSTMSentiment/blob/main/2_BiLSTM_Training.ipynb)
 * **Purpose:** The Laboratory (Production Model Export).
 * **What it does:** Fits the winning, enhanced BiLSTM architecture against the master database. It normalizes values via `MinMaxScaler` arrays, structures the 15-day chronological sequence windows, trains the deep learning network layers, and exports the serialized model binaries.
 * **Inputs:** `BBCA_Master_Dataset_BiLSTM.csv`
 * **Outputs:** `BBCA_BiLSTM_Sentiment_Model.keras`, `scaler_features.pkl`, `scaler_target.pkl`
 
 ### 3. `3_Live_Model_BiLSTM.ipynb`
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yourusername/BiLSTMvsBiLSTMSentiment/blob/main/3_Live_Model_BiLSTM.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/clifcovickh/BiLSTMvsBiLSTMSentiment/blob/main/3_Live_Model_BiLSTM.ipynb)
 * **Purpose:** Production Deployment (Daily Live Inference & Live XAI Dashboard).
 * **What it does:** Runs daily after market close. It uses `yfinance` to grab the fresh daily stock row, checks the calendar day to adjust the news collection query look-back parameter dynamically (`when:3d` on Mondays to prevent weekend data loss), scores current headlines, runs inference, and renders an **Explainable AI Dashboard** mapping micro-trends and peak confidence points.
 * **Inputs:** Saved `.keras` model, both `.pkl` scalers, and `BBCA_Master_Dataset_BiLSTM.csv`.
 * **Outputs:** Next-business-day trend verdict (`📈 UPTREND` / `📉 DOWNTREND`), price projection, and a live matplotlib dual-axis trend chart.
 
 ### 4. `4_Dataset_Recovery_Tool.ipynb`
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yourusername/BiLSTMvsBiLSTMSentiment/blob/main/4_Dataset_Recovery_Tool.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/clifcovickh/BiLSTMvsBiLSTMSentiment/blob/main/4_Dataset_Recovery_Tool.ipynb)
 * **Purpose:** Automated Maintenance and Cold-Start Gap Resolution.
 * **What it does:** Used as an operational backup tool if the daily inference engine hasn't been run for several days. It checks the max date in the master database against the system clock, automatically calculates the gap sequence (`days_diff + 2` days to satisfy the lag constraint), downloads missing Yahoo Finance stock rows, scrapes backlogged news, parses continuous scores, and performs a surgical row upsert to heal the timeline without row duplication.
 * **Inputs:** `BBCA_Master_Dataset_BiLSTM.csv`
 * **Outputs:** A completely repaired, up-to-date master CSV file.
 
 ### `Models_Comparison.ipynb`
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yourusername/BiLSTMvsBiLSTMSentiment/blob/main/Models_Comparison.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/clifcovickh/BiLSTMvsBiLSTMSentiment/blob/main/Models_Comparison.ipynb)
 * **Purpose:** Controlled Hyperparameter Benchmarking & Architecture Validation.
 * **What it does:** Implements a strict, reproducible environment to compare 5 distinct structural time-series models. Fairness is mathematically guaranteed by binding all architectures to an identical universal seed rule, uniform 2-layer structures, matching optimizer parameters, and a 15-day sequence window. This experiment provides empirical justification for selecting the BiLSTM as our primary forecasting model.
 * **Inputs:** `BBCA_Master_Dataset_BiLSTM.csv`
